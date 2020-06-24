@@ -1,21 +1,24 @@
-import React, {useState} from 'react';
-import IndexPage from "./pages/indexPage";
-import BottomNav from "./components/BottomNav";
-import CartPage from "./pages/CartPage";
-import OrderListPage from "./pages/OrderListPage";
-import UserPage from "./pages/UserPage";
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
-    const [activeNum,setActiveNum] = useState(0);
-    //useState:react hook提供的方法，用于修改指定的值(activeNum)
-
   return (
     <div className="App">
-        {activeNum === 0 && <IndexPage/>}
-        {activeNum === 1 && <CartPage/>}
-        {activeNum === 2 && <OrderListPage/>}
-        {activeNum === 3 && <UserPage/>}
-        <BottomNav activeNum={activeNum} setActiveNum={setActiveNum}/>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React lesson1
+        </a>
+      </header>
     </div>
   );
 }
