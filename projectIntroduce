@@ -1,0 +1,9 @@
+# React+Egg　构建个人博客
+
+## next服务端react 使用css样式
+>next.config.js
++ @zeit/next-css增加css的引用和按需加载功能
+
+>.babelrc
++ presets:Next.js的总配置文件，相当于继承了它本身的所有配置
++ 增加新的插件import，这个插件就是让antd可以按需引入，包括CSS
