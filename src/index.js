@@ -5,11 +5,17 @@ import App from './App';
 import "./static/iconfont/iconfont.css"
 // import * as serviceWorker from './serviceWorker';
 
+
+import store from './store'
+import {Provider} from 'react-redux';
+
 //Jsx需要babel loader 转义
 
 //把组件生成的真实dom挂载到root上
 ReactDOM.render(
-    <App />,
+    <Provider store={store}>
+    <App />
+    </Provider>,
   document.getElementById('root')
 );
 
