@@ -9,6 +9,7 @@ import ContextPage from "./pages/ContextPage/ContextPage";
 import AntdFormPage from "./pages/AntdFormPage/AntdFormPage";
 import MyRCFieldForm from "./pages/ContextPage/MyRCFieldForm";
 import MyRcForm from "./pages/ContextPage/MyRcForm";
+import Dialog from "./components/Dialog";
 
 function App() {
     const [activeNum,setActiveNum] = useState(0);
@@ -24,7 +25,8 @@ function App() {
         {/*<ContextPage/>*/}
         {/*<AntdFormPage/>*/}
         {/*<MyRCFieldForm/>*/}
-        <MyRcForm/>
+        {/*<MyRcForm/>*/}
+        <Dialog/>
     </div>
   );
 }

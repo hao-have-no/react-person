@@ -50,7 +50,7 @@ class FormStore {
             console.log('name',name);
             Object.keys(newStore).forEach(key => {
                 if (key === name) {
-                    entity.onStoreChange();
+                    entity.onStoreUpdate();
                 }
             });
             // entity.onStoreUpdate();
@@ -92,6 +92,8 @@ class FormStore {
     getForm = () => {
         return {
             //提供返回field值方法
+            setCallback: this.setCallback,
+            submit: this.submit,
             registerField:this.registerField,
             getFieldValue: this.getFieldValue,
             getFieldsValue: this.getFieldsValue,

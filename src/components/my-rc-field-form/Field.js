@@ -3,7 +3,6 @@ import FieldContext from './FieldContext'
 
 class Field extends Component {
     static contextType = FieldContext; //引入context,并通过useForm拿到了store
-
     //DidMount:只执行一次，将实例注入useForm.fieldEntities
 
     //有订阅，就需要有取消订阅
@@ -19,7 +18,7 @@ class Field extends Component {
         }
     }
 
-    //定义组件墙纸更新函数
+    //定义组件强制更新函数
     onStoreUpdate=()=>{
       this.forceUpdate();
     };
