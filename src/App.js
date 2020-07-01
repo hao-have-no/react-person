@@ -9,7 +9,8 @@ import ContextPage from "./pages/ContextPage/ContextPage";
 import AntdFormPage from "./pages/AntdFormPage/AntdFormPage";
 import MyRCFieldForm from "./pages/ContextPage/MyRCFieldForm";
 import MyRcForm from "./pages/ContextPage/MyRcForm";
-import Dialog from "./components/Dialog";
+import DialogPage from "./pages/ContextPage/DialogPage";
+import ReduxPage from "./pages/ReduxPage";
 
 function App() {
     const [activeNum,setActiveNum] = useState(0);
@@ -26,7 +27,8 @@ function App() {
         {/*<AntdFormPage/>*/}
         {/*<MyRCFieldForm/>*/}
         {/*<MyRcForm/>*/}
-        <Dialog/>
+        {/*<DialogPage/>*/}
+        <ReduxPage/>
     </div>
   );
 }
