@@ -12,9 +12,12 @@ export default function combineReducers(reducers){
             const reducer = reducers[key];
             nextState[key] = reducer(state[key],action);
             hashChanged = hashChanged||nextState[key] !== state[key]
+            //防止后面的覆盖前面的，每次都需要去对比
         }
 
         hashChanged = hashChanged||Object.keys(reducers).length !== Object.keys(state).length;
+
+        console.log('combination',nextState,state);
 
         return hashChanged?nextState:state;
     }

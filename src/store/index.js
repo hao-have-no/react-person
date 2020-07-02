@@ -14,6 +14,13 @@ import {createStore,applyMiddleware,combineReducers} from "../components/Redux/"
             //return {...state,...newState}
             // return {{num:1},{num:2}}
             return state+1;
+        default:
+            return state
+    }
+}
+
+function minReducer(state = 0,action){
+    switch (action.type) {
         case 'MINUS':
             return state-1;
         default:
@@ -30,13 +37,20 @@ import {createStore,applyMiddleware,combineReducers} from "../components/Redux/"
 //使用的时候getState()[key]
 
 //创建store保存状态
-const store = createStore(combineReducers({
-    count:countReducer
-}));
+let reducers = combineReducers({
+    count:countReducer,
+    minout:minReducer
+});
+
+ console.log('reducers',reducers);
+
+const store = createStore(reducers);
 // const store = createStore(counterReducer,applyMiddleware(thunk,logger));
 
 //thunk 执行后的回调函数在log中必须执行,
 // logger是第一个执行函数，如果不执行的话，后面就相当于不传参的执行
+
+console.log('last store',store);
 
 export default store
 
