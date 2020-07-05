@@ -23,12 +23,16 @@ import PageTwo from "./pages/ReactRouterPage/test2";
 import PageOne from "./pages/ReactRouterPage/test1";
 import _404Page from "./pages/ReactRouterPage/_404Page";
 
+
 function App() {
     // const [activeNum,setActiveNum] = useState(0);
+    const [state,setState] = useState(0);
     //useState:react hook提供的方法，用于修改指定的值(activeNum)
 
   return (
     <div className="App">
+        <p>{state}</p>
+        <button onClick={()=>setState(state+1)}>add</button>
         {/*{activeNum === 0 && <IndexPage/>}*/}
         {/*{activeNum === 1 && <CartPage/>}*/}
         {/*{activeNum === 2 && <OrderListPage/>}*/}
