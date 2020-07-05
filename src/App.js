@@ -14,12 +14,16 @@ import DialogPage from "./pages/ContextPage/DialogPage";
 import ReactReduxPage from "./pages/ReactReduxPage";
 import HooksPage from "./pages/ReactReduxPage/HooksPage";
 
+
 function App() {
     // const [activeNum,setActiveNum] = useState(0);
+    const [state,setState] = useState(0);
     //useState:react hook提供的方法，用于修改指定的值(activeNum)
 
-  return (
+  return(
     <div className="App">
+        <p>{state}</p>
+        <button onClick={()=>setState(state+1)}>add</button>
         {/*{activeNum === 0 && <IndexPage/>}*/}
         {/*{activeNum === 1 && <CartPage/>}*/}
         {/*{activeNum === 2 && <OrderListPage/>}*/}
@@ -31,8 +35,8 @@ function App() {
         {/*<MyRcForm/>*/}
         {/*<DialogPage/>*/}
         {/*<ReduxPage/>*/}
-        {/*<ReactReduxPage/>*/}
-        <HooksPage/>
+        <ReactReduxPage state={state}/>
+        {/*<HooksPage/>*/}
     </div>
   );
 }
