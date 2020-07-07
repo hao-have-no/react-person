@@ -14,9 +14,8 @@ import DialogPage from "./pages/ContextPage/DialogPage";
 import ReactReduxPage from "./pages/ReactReduxPage";
 // import HooksPage from "./pages/ReactReduxPage/HooksPage";
 
-import { BrowserRouter as Router , Route,Link,
-    // Switch
-} from './components/ReactRouter/';
+import { BrowserRouter as Router , Route, Link} from './components/ReactRouter/index';
+// import { BrowserRouter as Router , Route, Link} from 'react-router-dom'
 import Welcome from "./pages/ReactRouterPage";
 import PageThree from "./pages/ReactRouterPage/test3";
 import PageTwo from "./pages/ReactRouterPage/test2";
@@ -26,13 +25,13 @@ import _404Page from "./pages/ReactRouterPage/_404Page";
 
 function App() {
     // const [activeNum,setActiveNum] = useState(0);
-    const [state,setState] = useState(0);
+    // const [state,setState] = useState(0);
     //useState:react hook提供的方法，用于修改指定的值(activeNum)
 
   return (
     <div className="App">
-        <p>{state}</p>
-        <button onClick={()=>setState(state+1)}>add</button>
+        {/*<p>{state}</p>*/}
+        {/*<button onClick={()=>setState(state+1)}>add</button>*/}
         {/*{activeNum === 0 && <IndexPage/>}*/}
         {/*{activeNum === 1 && <CartPage/>}*/}
         {/*{activeNum === 2 && <OrderListPage/>}*/}
@@ -76,8 +75,8 @@ function App() {
                 <Route path="/user" component={PageOne}/>
                 <Route path="/page" component={PageTwo}/>
                 <Route path="/login" component={PageThree}/>
-                <Route path="/produce/:id" component={Product}/>
-                <Route component={_404Page} />
+                {/*<Route path="/produce/:id" component={Product}/>*/}
+                {/*<Route component={_404Page} />*/}
             {/*</Switch>*/}
         </Router>
     </div>
