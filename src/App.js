@@ -14,8 +14,8 @@ import DialogPage from "./pages/ContextPage/DialogPage";
 import ReactReduxPage from "./pages/ReactReduxPage";
 // import HooksPage from "./pages/ReactReduxPage/HooksPage";
 
-import { BrowserRouter as Router , Route, Link} from './components/ReactRouter/index';
-// import { BrowserRouter as Router , Route, Link} from 'react-router-dom'
+import { BrowserRouter as Router , Route, Link, Switch,useRouteMatch, useHistory, useLocation, useParams} from './components/ReactRouter/index';
+// import { BrowserRouter as Router , Route, Link, Switch, useRouteMatch} from 'react-router-dom'
 import Welcome from "./pages/ReactRouterPage";
 import PageThree from "./pages/ReactRouterPage/test3";
 import PageTwo from "./pages/ReactRouterPage/test2";
@@ -51,6 +51,9 @@ function App() {
             <Link to="/user">用户--》</Link>
             <Link to="/page">页面二--》</Link>
             <Link to="/login">登录--》</Link>
+            <Link to="/produce/1">商品--》</Link>
+            {/*动态路由也是走match匹配渲染的*/}
+
 
             {/*//exact 用于精确匹配*/}
             {/*switch 独占路由匹配，匹配到了就不会往下匹配了*/}
@@ -70,21 +73,39 @@ function App() {
             {/* children 呢 ,children 本质是 function ，组件复合的话可以是单个对象或者是list数组*/}
             {/* <Route children={() => <Child count={count} />} /> */}
 
-            {/*<Switch>*/}
+            <Switch>
                 <Route exact path="/" component={Welcome}/>
                 <Route path="/user" component={PageOne}/>
                 <Route path="/page" component={PageTwo}/>
                 <Route path="/login" component={PageThree}/>
                 {/*<Route path="/produce/:id" component={Product}/>*/}
-                {/*<Route component={_404Page} />*/}
-            {/*</Switch>*/}
+                {/*<Route path="/produce/:id" render={(props)=><Product {...props}/> }/>*/}
+
+                {/*假设传值，而是通过上下文的关系去拿值*/}
+                <Route path="/produce/:id" render={()=><Product /> }/>
+                <Route component={_404Page} />
+            </Switch>
         </Router>
     </div>
   );
 }
 
+
+//函数式组件，可以使用hooks的方式，搭配context完成上下级的关系嵌套
+//类组件的话，想获取相关的上下文属性，需要借助withoutRouter(装饰器)
 function Product(props){
-    const {match} = props;
+    // const {match} = props;
+
+    //使用hooks方法获取match
+    //使用这个钩子函数可以让你匹配最接近route树的路由
+    const match = useRouteMatch();
+    const history = useHistory();
+    const location = useLocation();
+    const _params = useParams();
+
+    console.log('match',match,history,location,_params);
+
+
     const {params,url} = match;
     const {id} = params;
     return <div>
