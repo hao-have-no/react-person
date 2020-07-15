@@ -1,41 +1,34 @@
 import React, {Component} from 'react';
+import {Link} from "react-router-dom";
 import styles from "./index.module.scss"
 
 const menu=[
-    {title:'首页',link:'/',icon:'shouye'},
-    {title:'购物车',link:'/cart',icon:'huiyuan'},
-    {title:'订单列表',link:'/orderlist',icon:'dingdan'},
-    {title:'用户中心',link:'/user',icon:'wodeguanzhu'}
+    {key: "home",title:'首页',link:'/', icon: "shouye"},
+    {key: "cart",title:'欢迎',link:'/welcome', icon: "fenlei"},
+    {key: "olist",title:'登录页面',link:'/login',icon: "icon-"},
+    {key: "user",title:'用户中心',link:'/user', icon: "wode"}
 ];
 
-class BottomNav extends Component {
+export default class BottomNav extends Component {
+    componentWillUnmount() {
+        console.log("BottomNav componentWillUnmount"); //sy-log
+    }
     render() {
-        const {activeNum,setActiveNum} = this.props;
         return (
-            <div>
-                <h3>BottomNav</h3>
-                <div>{ activeNum }</div>
-                {
-                    menu.map((item,index)=>(
-                        <MenuItem
-                            key={item.link}{...item}
-                            active={activeNum === index}
-                            onClick={()=>setActiveNum(index)}
-                        />
-                    ))
-                }
-            </div>
+            <ul className="bottomNav">
+                {menu.map(item => (
+                    <MenuItem key={item.key} {...item} />
+                ))}
+            </ul>
         );
     }
 }
 
-function MenuItem({title,icon,active,onClick}){
+function MenuItem(props) {
     return (
-        <div className={ active?styles.active: '' } onClick={onClick}>
-            <span className={"iconfont icon-" + icon}/>
-            <span className={styles.title}>{ title }</span>
-         </div>
-    )
+        <li className="menuItem">
+            <span className={"iconfont icon-" + props.icon}></span>
+            <Link to={props.link}>{props.title}</Link>
+        </li>
+    );
 }
-
-export default BottomNav;

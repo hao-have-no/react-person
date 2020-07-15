@@ -11,7 +11,8 @@ function PrivateRouter({isLogin,component: Component,...restProps}) {
         // restProp：history,location,match
         // redirect 重定向组件
     return <Route {...restProps} render={props=>isLogin? <Component {...props} />
-    :<Redirect to={{pathname:"/login" , state: {redirect:props.location.pathname}}} />}/>
+    :<Redirect to={{pathname:"/login" ,
+            state: {redirect:props.location.pathname}}} />}/>
 }
 
 export default PrivateRouter;

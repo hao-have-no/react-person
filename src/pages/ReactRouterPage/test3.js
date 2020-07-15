@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
+import {Redirect} from "react-router-dom";
 
 class PageThree extends Component {
     render() {
         return (
-            <div>
-                <h3>Page3</h3>
-            </div>
-        );
+            <Redirect to={{pathname: '/welcome'}}/>
+        )
     }
 }
 

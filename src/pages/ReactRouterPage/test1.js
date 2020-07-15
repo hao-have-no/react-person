@@ -4,7 +4,7 @@ class PageOne extends Component {
     render() {
         return (
             <div>
-                <h3>Page1</h3>
+                <h3>用户中心</h3>
             </div>
         );
     }
