@@ -5,7 +5,7 @@ function createElement(type,config,...children){
 
     let propName;
 
-    console.log('element',type,config,...children);
+    // console.log('element',type,config,...children);
 
    //删除jsx生成对象中不需要的本地元素
     if (config){

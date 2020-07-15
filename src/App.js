@@ -21,7 +21,7 @@ import React, {useState} from 'react';
 // import PageTwo from "./pages/ReactRouterPage/test2";
 // import PageOne from "./pages/ReactRouterPage/test1";
 // import _404Page from "./pages/ReactRouterPage/_404Page";
-// import Routes from "./routers";
+import Routes from "./routers";
 
 function App() {
     // const [activeNum,setActiveNum] = useState(0);
@@ -95,7 +95,7 @@ function App() {
 
         {/*企业级开发最佳实践*/}
         {/*Generate实践 helloGenerate*/}
-         {/*<Routes />*/}
+         <Routes />
     </div>
   );
 }
@@ -130,31 +130,31 @@ function App() {
 // }
 
 {/*Generate实践*/}
-function* helloGenerate(){
-    yield 'hello';
-    yield 'world';
-    yield 'name';
-}
-
-let hw = helloGenerate();
-
-// console.log(hw);
-console.log(hw.next());
-console.log(hw.next());
-console.log(hw.next());
-
-//惰性求知
-var a = 0;
-function* fun() {
-    let aa = yield (a = 1+ 1);
-    return aa;
-}
-
-console.log('fun0',a);
-let b = fun();
-console.log('fun1',a);
-b.next();
-console.log('fun2',a);
+// function* helloGenerate(){
+//     yield 'hello';
+//     yield 'world';
+//     yield 'name';
+// }
+//
+// let hw = helloGenerate();
+//
+// // console.log(hw);
+// console.log(hw.next());
+// console.log(hw.next());
+// console.log(hw.next());
+//
+// //惰性求知
+// var a = 0;
+// function* fun() {
+//     let aa = yield (a = 1+ 1);
+//     return aa;
+// }
+//
+// console.log('fun0',a);
+// let b = fun();
+// console.log('fun1',a);
+// b.next();
+// console.log('fun2',a);
 
 //generate:返回的是一个遍历器对象
 // 调用next，才会遍历下一个状态
