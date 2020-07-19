@@ -69,6 +69,8 @@ function FunctionComponent(props){
             console.log('count');
             setCount(count+1);
         }}>{count}</button>
+        {/*模拟updateNode*/}
+        {count % 2 ? <button>click</button>:<div>omg</div>}
     </div>
 }
 

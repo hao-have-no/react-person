@@ -1,7 +1,7 @@
 
 // vnode 虚拟dom, node 真实dom
 
-import {TEXT,PLACEMENT,UPDATE} from "./const";
+import {TEXT, PLACEMENT, UPDATE, DELETION} from "./const";
 
 
 //fiber
@@ -12,7 +12,7 @@ import {TEXT,PLACEMENT,UPDATE} from "./const";
 //     sibling,// 兄弟节点
 //     return, //父节点
 //     node, // 当前节点的真实dom对象
-//     base //储存旧的fiber
+//     base //储存旧的fiber(上一次fiber)
 // }
 
 //下一个单元任务
@@ -24,8 +24,13 @@ let wipRoot = null;
 //全局设定工作时的fiber
 let wipFiber = null; //子fiber,工作的fiber
 
-//20200716 定义当前正在执行的wibRoot
+//20200715 定义当前正在执行的wibRoot
 let currentRoot = null;
+
+
+//202007015 设置删除的fiber队列
+let deletions = null;
+
 
 // fiber就是一个vnode
 //虚拟节点，container父节点
@@ -46,6 +51,9 @@ function render(vnode, container){
             children:[vnode]
         }
     }
+
+    //20200715 初始化删除队列
+    deletions = [];
 
     nextUnitOfWork = wipRoot;
 }
@@ -192,7 +200,7 @@ function reconcileChildren(workInProgressFiber,children){
             }
         }
 
-        //类型不痛，但是child存在,新增
+        //类型不同，但是child存在,新增
         if (!sameType&&child){
             newFiber={
                 type:child.type,
@@ -204,20 +212,23 @@ function reconcileChildren(workInProgressFiber,children){
             }
         }
 
+        //类型不同，但是老节点存在，删除
         if (!sameType&&oldFiber){
             //删除
+            oldFiber.effectTag = DELETION;//打上状态标签
+            deletions.push(oldFiber);
         }
 
 
-        //丰富fiber节点结构
-        newFiber = {
-            type: child.type,
-            props: child.props,
-            node:null,
-            base:null,
-            return: workInProgressFiber,
-            effectTag: PLACEMENT
-        };
+        // //丰富fiber节点结构
+        // newFiber = {
+        //     type: child.type,
+        //     props: child.props,
+        //     node:null,
+        //     base:null,
+        //     return: workInProgressFiber,
+        //     effectTag: PLACEMENT
+        // };
         
         if (oldFiber){
             //存在旧的fiber，游标移动，准备下次判断
@@ -261,7 +272,7 @@ function updateClassComponent(fiber){
 function updateFunctionComponent(fiber) {
     //当前工作的fiber就是这个fiber
     wipFiber = fiber;
-    //!源码中是对象链表
+    //todo !源码中是对象链表,模仿的话用数组比较合适
     wipFiber.hooks = [];
     //因为会有很多hook任务，useState,useReducer,useEffect...
     wipFiber.hookIndex = 0;//hook执行任务下标
@@ -284,7 +295,7 @@ function updateFunctionComponent(fiber) {
 function updateNode(node,prevVal,nextVal){
 
     //增加对on事件的解析，并提供事件解绑方案
-
+    //对于老的，在新节点里不存在的进行删除
     Object.keys(prevVal)
         .filter(k => k !== "children")
         .forEach(key => {
@@ -328,8 +339,13 @@ function workLoop(deadline){
     requestIdleCallback(workLoop);
 }
 
-//提交
+//提交，节点结构计算完毕，准备提交更新任务
 function commitRoot(){
+
+    //提交删除
+    deletions.forEach(commitWorker);
+
+    //提交更新
     commitWorker(wipRoot.child);
 
     currentRoot = wipRoot;
@@ -337,6 +353,16 @@ function commitRoot(){
     // 否则会一直提交（详情看commitWorker方法）
     wipRoot = null; //置空
 }
+
+//删除节点,需要知道父节点
+function commitDeletions(fiber,parentNode){
+        if (fiber.node){
+            parentNode.removeChild(fiber.node);
+        }else{
+            commitDeletions(fiber.child,parentNode);
+        }
+}
+
 
 //提交执行work,挂载节点
 function commitWorker(fiber){
@@ -352,8 +378,17 @@ function commitWorker(fiber){
     }
 
     const parentNode = parentNodeFiber.node;
+    
+    //当节点生成完毕，并且没有未处理节点
     if (fiber.effectTag === PLACEMENT && fiber.node !== null) {
         parentNode.appendChild(fiber.node);
+    }
+    else if (fiber.effectTag === UPDATE && fiber.node !== null){
+        //节点已经生成，只需要更新属性
+        updateNode(fiber.node,fiber.base.props,fiber.props)
+    }
+    else if (fiber.effectTag === DELETION && fiber.node !== null){
+        commitDeletions(fiber,parentNode);
     }
 
     //子节点和兄弟节点重复过程，进行挂载
@@ -367,11 +402,13 @@ requestIdleCallback(workLoop);
 
 
 //20200715 -- 自定义实现useState
+//在执行updateFunctionComponent的时候，hooks会发生变化，所以还会触发useState,
+
 export function useState(init) {
     //寻找当前正在更新的fiber
     //base 是前一次的fiber(oldFiber)
     //reconcileChildren有对应的声明
-
+    //wipFiber.base为旧的hook,判断是否是第一次来判断更新
     const oldHook = wipFiber.base&&wipFiber.base.hooks[wipFiber.hookIndex];
 
     //需要判断是否是初始化
@@ -402,6 +439,10 @@ export function useState(init) {
             props: currentRoot.props,
             base:currentRoot
         };
+
+        //每次更新的时候，需要清空deletions,否则删除队列执行后还存在任务，再去执行会找不到删除的点而报错
+        deletions = [];
+
         //setState　会更新页面　所以需要在这赋值任务，执行任务的渲染
         nextUnitOfWork  = wipRoot;
         console.log('omg',nextUnitOfWork);
