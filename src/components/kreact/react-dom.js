@@ -1,7 +1,7 @@
 
 // vnode 虚拟dom, node 真实dom
 
-import {TEXT, PLACEMENT, UPDATE, DELETION} from "./const";
+import {TEXT, PLACEMENT, UPDATE, DELETION, REACT_ELEMENT_TYPE, REACT_FRAGMENT_TYPE, REACT_PORTAL_TYPE} from "./const";
 
 
 //fiber
@@ -180,7 +180,7 @@ function reconcileChildren(workInProgressFiber,children){
 
     for (let i=0;i<children.length;i++){
         let child = children[i];
-        
+
         //20200716--hooks介入
         let newFiber = null;
 
@@ -219,17 +219,6 @@ function reconcileChildren(workInProgressFiber,children){
             deletions.push(oldFiber);
         }
 
-
-        // //丰富fiber节点结构
-        // newFiber = {
-        //     type: child.type,
-        //     props: child.props,
-        //     node:null,
-        //     base:null,
-        //     return: workInProgressFiber,
-        //     effectTag: PLACEMENT
-        // };
-        
         if (oldFiber){
             //存在旧的fiber，游标移动，准备下次判断
             oldFiber = oldFiber.sibling;
@@ -248,6 +237,57 @@ function reconcileChildren(workInProgressFiber,children){
 
     }
 }
+
+//10100717 仿照源码，手写reconcileChildren
+// function reconcileChildren(workInProgressFiber,children){
+//
+//     const isUnkeyedTopLevelFragment = typeof children === 'object'&&children !== null
+//     && children.type === REACT_FRAGMENT_TYPE &&
+//         children.key === null;
+//
+//     if (isUnkeyedTopLevelFragment){
+//         children = children.props.children
+//     }
+//
+//     const isObject = typeof children === 'object' && children !== null;
+//
+//     if (isObject) {
+//         switch (children.$$typeof) {
+//             case REACT_ELEMENT_TYPE:
+//
+//
+//                 return placeSingleChild(
+//                     reconcileSingleElement(
+//                         returnFiber,
+//                         currentFirstChild,
+//                         newChild,
+//                         expirationTime,
+//                     ),
+//                 );
+//             case REACT_PORTAL_TYPE:
+//                 return placeSingleChild(
+//                     reconcileSinglePortal(
+//                         returnFiber,
+//                         currentFirstChild,
+//                         newChild,
+//                         expirationTime,
+//                     ),
+//                     shou
+//                 );
+//         }
+//     }
+// }
+
+
+function placeSingleChild(newFiber,rshouldTrackSideEffects){
+    // This is simpler for the single child case. We only need to do a
+    // placement for inserting new children.
+    if (shouldTrackSideEffects && newFiber.alternate === null) {
+        newFiber.effectTag = Placement;
+    }
+    return newFiber;
+}
+
 
 //20200709 处理类组件
 // function updateClassComponent(vnode){

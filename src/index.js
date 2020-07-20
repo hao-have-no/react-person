@@ -91,7 +91,7 @@ function FunctionComponent(props){
 
 const jsx = (
     <div>
-        <p className="title">亚速尔群岛</p>
+        <p className="title">埃塞俄比亚</p>
         <a>123523</a>
         <FunctionComponent name="func"/>
         {/*<ClassComponent name="class" />*/}
