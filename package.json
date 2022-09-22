@@ -1,57 +1,35 @@
 {
-  "name": "react-person",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@babel/plugin-proposal-decorators": "^7.8.3",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "babel": "^6.23.0",
-    "babel-plugin-import": "^1.13.0",
-    "customize-cra": "^1.0.0",
-    "history": "^5.0.0",
-    "less-loader": "^6.1.2",
-    "node-sass": "^4.14.1",
-    "rc-field-form": "^1.5.0",
-    "rc-form": "^2.4.11",
-    "react": "^16.13.1",
-    "react-app-rewired": "^2.1.6",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "redux": "^4.0.5",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
-  },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "start": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "plugins": [
-    [
-      "@babel/plugin-proposal-decorators",
-      {
-        "legacy": true
-      }
-    ]
-  ],
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
     ]
+  },
+  "dependencies": {
+    "@ant-design/pro-layout": "^5.0.12",
+    "@umijs/preset-react": "1.x",
+    "@umijs/test": "^3.2.23",
+    "express": "^4.17.1",
+    "lint-staged": "^10.0.7",
+    "mockjs": "^1.1.0",
+    "prettier": "^1.19.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "umi": "^3.2.23",
+    "yorkie": "^2.0.0"
   }
 }
